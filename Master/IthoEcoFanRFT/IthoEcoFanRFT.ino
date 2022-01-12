@@ -67,6 +67,7 @@ void setup(void) {
 void loop(void) {
   // do whatever you want, check (and reset) the ITHOhasPacket flag whenever you like
   if (ITHOhasPacket) {
+    ITHOhasPacket = false; //clear the interrupt flag
     if (rf.checkForNewPacket()) {
       IthoCommand cmd = rf.getLastCommand();
       if (++RFTcommandpos > 2) RFTcommandpos = 0;  // store information in next entry of ringbuffers
@@ -81,7 +82,7 @@ void loop(void) {
   }
 }
 
-#if defined (ESP8266) && defined (ESP32)
+#if defined (ESP8266) || defined (ESP32)
 ICACHE_RAM_ATTR void ITHOcheck() {
 #else
 void ITHOcheck() {
